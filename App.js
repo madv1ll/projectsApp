@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import HomeScreen from "./Screens/HomeScreen";
 import ProyectFormScreen from "./Screens/ProyectFormScreen";
+import ProyectHomeScreen from "./Screens/ProyectHomeScreen";
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -34,9 +35,18 @@ const App = () => {
                         headerTitleStyle: {color: '#ffffff'},
                         headerTintColor: '#ffffff',
                     }}/>
+                <Stack.Screen
+                name="ProyectHome"
+                component={ProyectHomeScreen}
+                options={{
+                    title: 'Your Proyects',
+                    headerStyle: {backgroundColor: '#222f3e'}, 
+                    headerTitleStyle: {color: '#ffffff'},
+                    headerTintColor: '#ffffff',
+                }}/>
             </Stack.Navigator>
         </NavigationContainer>
     )
-}
+};
 
 export default App;

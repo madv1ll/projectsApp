@@ -25,7 +25,7 @@ const ProyectList = () => {
   }
 
   const renderItem = ({ item }) => {
-    return <ProyectItem proyect={item} handleDelete={handleDelete}/>
+    return <ProyectItem proyect={item} handleDelete={handleDelete} />
   }
 
   const onRefresh = React.useCallback(async () => {

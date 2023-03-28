@@ -136,7 +136,7 @@ const ProyectFormScreen = ({ navigation, route }) => {
 
     </Layout>
   )
-}
+};
 
 const styles = StyleSheet.create({
   input: {
