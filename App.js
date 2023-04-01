@@ -3,12 +3,13 @@ import { Text, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-
 import HomeScreen from "./Screens/HomeScreen";
 import ProyectFormScreen from "./Screens/ProyectFormScreen";
 import ProyectHomeScreen from "./Screens/ProyectHomeScreen";
+import ItemFormScreen from "./Screens/ItemFormScreen";
 
 const Stack = createNativeStackNavigator();
+
 const App = () => {
     return (
         <NavigationContainer>
@@ -40,6 +41,15 @@ const App = () => {
                 component={ProyectHomeScreen}
                 options={{
                     title: 'Your Proyects',
+                    headerStyle: {backgroundColor: '#222f3e'}, 
+                    headerTitleStyle: {color: '#ffffff'},
+                    headerTintColor: '#ffffff',
+                }}/>
+                <Stack.Screen
+                name="ItemForm"
+                component={ItemFormScreen}
+                options={{
+                    title: 'Create New Item',
                     headerStyle: {backgroundColor: '#222f3e'}, 
                     headerTitleStyle: {color: '#ffffff'},
                     headerTintColor: '#ffffff',

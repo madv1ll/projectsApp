@@ -1,11 +1,16 @@
-import { View, Text, FlatList, StyleSheet } from 'react-native'
 import { useState, useEffect } from 'react'
-import { getProyect, getProyectItems } from '../api'
-import { useIsFocused } from '@react-navigation/native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
-import ProyectDetailItemsList from '../components/ProyectDetailItemsList'
+import { getProyect} from '../services/proyectsService'
+import { deleteItem, getProyectItems } from '../services/itemService'
+
+import ItemDetail from './ItemDetail'
 
 const ProyectDetail = (id) => {
+
+    const navigation = useNavigation();
+
     const isFocused = useIsFocused();
 
     const [items, setItems] = useState([]);
@@ -20,6 +25,11 @@ const ProyectDetail = (id) => {
         const data = await getProyect(id);
         setProyect(data);
     };
+    const handleDelete = async (itemid) => {
+        await deleteItem(itemid);
+        loadItems(itemid);
+        loadProyect(id.id);
+      }
 
     useEffect(() => {
         loadItems(id.id);
@@ -27,14 +37,19 @@ const ProyectDetail = (id) => {
     }, [isFocused]);
     
     const renderItem = ({ item }) => {
-        return (<ProyectDetailItemsList item={ item } />)
+        return <ItemDetail item={ item } handleDelete={handleDelete}/>
       };
     
   return (
     <View>
-        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold'}}>Proyecto:{proyect.name}</Text>
+            <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold'}}>Proyecto: {proyect.name}</Text>
         <View >
-            <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold'}}>Items</Text>
+            <View style={styles.itemTitleContainer}>
+                <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold',}}>Items</Text>
+                <TouchableOpacity style={styles.ButtonNew} onPress={ () => navigation.navigate('ItemForm', {proyectId : id.id})}>
+                    <Text style={{color: '#ffffff'}}>New Item</Text>
+                </TouchableOpacity>
+            </View >
             <FlatList
             style={{ width: '100%' }}
             data={ items }
@@ -46,10 +61,20 @@ const ProyectDetail = (id) => {
   )
 };
 const styles = StyleSheet.create({
-    itemContainer: {
-        backgroundColor: '#333333',
-        borderRadius: 10,
-    }
+    itemTitleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    ButtonNew: {
+        color: '#ffffff', 
+        marginRight: 20, 
+        padding: 8, 
+        fontSize:18, 
+        borderRadius: 100, 
+        backgroundColor: '#10ac84'
+    },
 });
 
 export default ProyectDetail

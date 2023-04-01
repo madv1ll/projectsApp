@@ -33,8 +33,3 @@ export const updateProyect = async (id, newProyect) => {
     })
     return await res;
 };
-
-export const getProyectItems = async (id) => {
-    const res = await fetch(`${API}/items/${id}`);
-    return await res.json();
-};

@@ -11,21 +11,22 @@ const ProyectItem = ({ proyect, handleDelete }) => {
         onStartShouldSetResponder={() => navigation.navigate('ProyectHome', { id: proyect.id })}
         style={styles.itemContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('ProyectHome', { id: proyect.id })}>
-        <Text style={styles.itemTitle}>{proyect.name}</Text>
-        <Text style={styles.itemTitle}>{proyect.price}</Text>
+        <Text style={styles.itemTitle}>Name : {proyect.name}</Text>
+        <Text style={styles.itemTitle}>Start Date : {proyect.startdate}</Text>
+        <Text style={styles.itemTitle}>Price : {proyect.price}</Text>
         </TouchableOpacity>
         <View>
           <TouchableOpacity
-            style={{ backgroundColor: "#ee5253", padding: 7, borderRadius: 5 }}
-            onPress={() => handleDelete(proyect.id)}
-          >
-            <Text style={{ color: "white" }}>Delete</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ backgroundColor: "#0a3d62", padding: 7, borderRadius: 5, }}
+            style={ styles.buttonUpdate }
             onPress={() => navigation.navigate('ProyectForm', { id: proyect.id })}
           >
             <Text style={{ color: "white" }}>Modify</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonDelete }
+            onPress={() => handleDelete(proyect.id)}
+          >
+            <Text style={{ color: "white" }}>Delete</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -45,6 +46,17 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     color: '#ffffff'
+  },
+  buttonUpdate: {
+    backgroundColor: "#0a3d62", 
+    padding: 7, 
+    borderRadius: 5, 
+    marginBottom:10
+  },
+  buttonDelete: {
+    backgroundColor: "#ee5253", 
+    padding: 7, 
+    borderRadius: 5
   }
 });
 export default ProyectItem

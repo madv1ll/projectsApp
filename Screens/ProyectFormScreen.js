@@ -2,7 +2,7 @@ import { Text, TextInput, StyleSheet, TouchableOpacity, Button, View } from 'rea
 import React, { useState, useEffect } from 'react'
 
 import Layout from '../components/Layout'
-import { saveProyect, getProyect, updateProyect } from '../api'
+import { saveProyect, getProyect, updateProyect } from '../services/proyectsService'
 
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 
@@ -51,7 +51,6 @@ const ProyectFormScreen = ({ navigation, route }) => {
     try {
       if (!editing) {
         await saveProyect(Proyect);
-        console.log(Proyect)
       } else {
         await updateProyect(route.params.id,Proyect);
       }
@@ -99,7 +98,7 @@ const ProyectFormScreen = ({ navigation, route }) => {
           editable= {false}
           style={styles.datesInput} 
           placeholder= 'Start Date'
-          value={Proyect.startDate}/>
+          value={formatDate(Proyect.startDate)}/>
         <TouchableOpacity style={styles.buttonDates} onPress={showDatepicker} >
           <Text style={styles.buttonText}>Date</Text>
         </TouchableOpacity>
@@ -109,7 +108,7 @@ const ProyectFormScreen = ({ navigation, route }) => {
         editable= {false}
           style={styles.datesInput} 
           placeholder= 'Finish Date' 
-          value={Proyect.finishDate} 
+          value={formatDate(Proyect.finishDate)} 
         />
         <TouchableOpacity style={styles.buttonDates} onPress={showDatepickerF} >
           <Text style={styles.buttonText}>Date</Text>

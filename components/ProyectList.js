@@ -1,8 +1,9 @@
-import { FlatList, RefreshControl } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import ProyectItem from './ProyectItem'
-import { getProyects, deleteProyect } from '../api';
+import { FlatList, RefreshControl } from 'react-native'
 import { useIsFocused } from '@react-navigation/native';
+
+import ProyectItem from './ProyectItem'
+import { getProyects, deleteProyect } from '../services/proyectsService';
 
 const ProyectList = () => {
 
