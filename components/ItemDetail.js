@@ -7,13 +7,13 @@ const ItemDetail = ({ item, handleDelete }) => {
 
   return (
     <View style={styles.itemContainer} >
-      <View style= {{  backgroundColor: 'red'}}>
+      <View >
         <Text style={styles.textItem}>Name: {item.name}</Text>
         <Text style={styles.textItem}>Quantity: {item.quantity}</Text>
         <Text style={styles.textItem}>Total Price: {item.totalprice}</Text>
         <Text style={styles.textItem}>Purchase Date: {item.purchasedate}</Text>
       </View>
-      <View style= {{  backgroundColor: 'blue'}}>
+      <View >
         <TouchableOpacity 
           style={styles.buttonUpdate}
           onPress={() => navigation.navigate('ItemForm', {itemToUpdate: item})}
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0a3d62",
     padding: 7, 
     borderRadius: 5,
+    marginBottom: 10,
   },
   buttonDelete: {
     backgroundColor: "#ee5253", 
