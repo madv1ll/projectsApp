@@ -4,7 +4,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import Layout from '../components/Layout';
 import { addItem, getItem, updateItem } from '../services/itemService';
 
-const ItemFormScreen = ({ navigation, route, itemToUpdate, proyectId }) => {
+const ItemFormScreen = ({ navigation, route  }) => {
   const [item, setItem] = useState({
     name: '',
     unitPrice: '',

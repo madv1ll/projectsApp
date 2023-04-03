@@ -7,6 +7,7 @@ import HomeScreen from "./Screens/HomeScreen";
 import ProyectFormScreen from "./Screens/ProyectFormScreen";
 import ProyectHomeScreen from "./Screens/ProyectHomeScreen";
 import ItemFormScreen from "./Screens/ItemFormScreen";
+import EmployeeFormScreen from "./Screens/EmployeeFormScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +55,16 @@ const App = () => {
                     headerTitleStyle: {color: '#ffffff'},
                     headerTintColor: '#ffffff',
                 }}/>
+                <Stack.Screen
+                name="EmployeeForm"
+                component={EmployeeFormScreen}
+                options={{
+                    title: 'Create New Employee',
+                    headerStyle: {backgroundColor: '#222f3e'}, 
+                    headerTitleStyle: {color: '#ffffff'},
+                    headerTintColor: '#ffffff',
+                }}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     )

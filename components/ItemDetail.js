@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 const ItemDetail = ({ item, handleDelete }) => {
 
   const navigation = useNavigation();
-
+  
   return (
     <View style={styles.itemContainer} >
       <View >
