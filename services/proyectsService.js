@@ -1,4 +1,5 @@
-const API = 'https://api-proyectsapp.onrender.com';
+// const API = 'https://api-proyectsapp.onrender.com';
+const API = 'http://10.0.2.2:4000'
 
 export const getProyects = async () => {
     const res = await fetch(`${API}/proyects`);
@@ -30,6 +31,6 @@ export const updateProyect = async (id, newProyect) => {
         method: 'PUT',
         body: JSON.stringify(newProyect),
         headers: { Accept: 'application/json', 'Content-Type': 'application/json' }
-    })
-    return await res;
+    });
+    return await res
 };

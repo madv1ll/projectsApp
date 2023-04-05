@@ -139,7 +139,7 @@ const ItemFormScreen = ({ navigation, route  }) => {
       {
         !editing ? (
           <TouchableOpacity style={styles.buttonSave} onPress={handleSubmit} >
-            <Text style={styles.buttonText}>Add Proyect</Text>
+            <Text style={styles.buttonText}>Add Item</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity style={styles.buttonUpdate} onPress={handleSubmit} >

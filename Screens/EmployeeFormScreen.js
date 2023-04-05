@@ -8,104 +8,109 @@ import { addEmployee, getEmployee, getEmployees, updateEmployee } from '../servi
 const EmployeeFormScreen = ({ navigation, route } ) => {
 
     const [employee, setEmployee] = useState({
-        name: '',
-        lastname: '',
-        startdate: '',
-        finishdate: '',
-        salary: '',
-        proyectid: ''
+      name: '',
+      lastname: '',
+      startdate: '',
+      finishdate: '',
+      salary: '',
+      projectid: '',
+      workdays: ''
     });
     const [editing, setEditing] = useState(false);
     const [startDate, setStartDate] = useState(new Date());
     const [finishDate, setFinishDate] = useState(new Date());
 
     const onChangeS = (event, selectedDate) => {
-        const currentDate = selectedDate;
-        setStartDate(currentDate);
-        handleChange('startdate', currentDate.toISOString().split('T')[0]);
+      const currentDate = selectedDate;
+      setStartDate(currentDate);
+      handleChange('startdate', currentDate.toISOString().split('T')[0]);
     };
 
     const onChangeF = (event, selectedDate) => {
-        const currentDate = selectedDate;
-        setFinishDate(currentDate);
-        handleChange('finishdate', currentDate.toISOString().split('T')[0]);
+      const currentDate = selectedDate;
+      setFinishDate(currentDate);
+      handleChange('finishdate', currentDate.toISOString().split('T')[0]);
     };
 
     const showDatepicker = () => {
-        DateTimePickerAndroid.open({
-          value: startDate,
-          onChange: onChangeS,
-          mode: 'date',
-          is24Hour: true,
-        });
+      DateTimePickerAndroid.open({
+        value: startDate,
+        onChange: onChangeS,
+        mode: 'date',
+        is24Hour: true,
+      });
     };
 
     const showDatepickerF = () => {
-        DateTimePickerAndroid.open({
-          value: finishDate,
-          onChange: onChangeF,
-          mode: 'date',
-          is24Hour: true,
-        });
+      DateTimePickerAndroid.open({
+        value: finishDate,
+        onChange: onChangeF,
+        mode: 'date',
+        is24Hour: true,
+      });
       };
 
     const handleChange = (name, value) => setEmployee({ ...employee, [name]: value });
 
     const handleSubmit = async () => {
-        try {
-          if (!editing) {
-            setEmployee({ ...employee, ["proyectid"]: route.params.proyectId.toString() })
-            await addEmployee(employee);
-            navigation.navigate('ProyectHome', {id: route.params.proyectId});
-          } else {
-            await updateEmployee(employee);
-            navigation.navigate('ProyectHome', {id: employee.id});
-          }
-        } catch (error) {
-          console.error(error);
+      try {
+        if (!editing) {
+          setEmployee({ ...employee, ["projectid"]: route.params.proyectId })
+          await addEmployee(employee);
+          navigation.navigate('ProyectHome', {id: route.params.proyectId});
+        } else {
+          await updateEmployee(employee);
+          navigation.navigate('ProyectHome', {id: employee.projectid});
         }
-      };
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     const formatDate = (dateP) =>{
-    if (dateP == null || dateP == undefined || dateP == '' || dateP == ' ' || dateP){
+      if (dateP == null || dateP == undefined || dateP == '' || dateP == ' ' || dateP){
         return new Date().toISOString().split('T')[0];
-    }
-    const d = new Date(dateP);
-    month = '' + (d.getMonth() + 1);
-    day = '' + d.getDate(),
-    year = d.getFullYear();
+      }
+      const d = new Date(dateP);
+      month = '' + (d.getMonth() + 1);
+      day = '' + d.getDate(),
+      year = d.getFullYear();
 
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
-    return [day, month, year].join('-');
+      if (month.length < 2) 
+          month = '0' + month;
+      if (day.length < 2) 
+          day = '0' + day;
+      return [day, month, year].join('-');
     };
 
     useEffect(() => {
-        if (route.params && route.params.employeeToUpdate) {
-            navigation.setOptions({ headerTitle: 'Updating an Employee' });
-            setEditing(true);
-            (async () => {
-            const [data] = await getEmployee(route.params.employeeToUpdate.id);
-            setEmployee({
-               id: data.id,
-                name: data.name,
-                lastname: data.lastname,
-                startdate: data.startdate,
-                finishdate: data.finishdate,
-                projectid: data.projectid,
-                salary: data.salary, });
-            })();
-        } else{
+      if (route.params && route.params.employeeToUpdate) {
+        navigation.setOptions({ headerTitle: 'Updating an Employee' });
+        setEditing(true);
+        (async () => {
+          const [data] = await getEmployee(route.params.employeeToUpdate.id);
           setEmployee({
-            name: '',
-            lastname: '',
-            startdate: '',
-            finishdate: '',
-            projectid: route.params.proyectId,
-            salary: '', });
-        }
+            id: data.id,
+              name: data.name,
+              lastname: data.lastname,
+              startdate: data.startdate,
+              finishdate: data.finishdate,
+              projectid: data.projectid,
+              salary: data.salary,
+              workdays : data.workdays
+          });
+          })();
+      } else {
+        setEmployee({
+          name: '',
+          lastname: '',
+          startdate: startDate.toISOString().split('T')[0],
+          finishdate: startDate.toISOString().split('T')[0],
+          projectid: route.params.proyectId,
+          salary: '',
+          workdays: ''
+        });
+      }
     },[]);
 
   return (
@@ -130,7 +135,7 @@ const EmployeeFormScreen = ({ navigation, route } ) => {
           editable= {false}
           style={styles.datesInput} 
           placeholder= 'Start Date'
-          value={formatDate(employee.startdate)}/>
+          value={startDate.toISOString().split('T')[0]}/>
         <TouchableOpacity style={styles.buttonDates} onPress={showDatepicker} >
           <Text style={styles.buttonText}>Date</Text>
         </TouchableOpacity>
@@ -141,7 +146,7 @@ const EmployeeFormScreen = ({ navigation, route } ) => {
         editable= {false}
           style={styles.datesInput} 
           placeholder= 'Finish Date' 
-          value={formatDate(employee.finishdate)} 
+          value={finishDate.toISOString().split('T')[0]} 
         />
         <TouchableOpacity style={styles.buttonDates} onPress={showDatepickerF} >
           <Text style={styles.buttonText}>Date</Text>
@@ -153,6 +158,15 @@ const EmployeeFormScreen = ({ navigation, route } ) => {
         placeholder='Salary'
         onChangeText={text => handleChange('salary', text)}
         value={employee.salary.toString()}
+        inputMode='numeric'
+      />
+      <Text style={styles.labelText}>Work Days</Text>
+      <TextInput
+        style={styles.input}
+        placeholder='Work Days'
+        onChangeText={text => handleChange('workdays', text)}
+        value={employee.workdays.toString()}
+        inputMode='numeric'
       />
       {
         !editing ? (
@@ -165,9 +179,6 @@ const EmployeeFormScreen = ({ navigation, route } ) => {
           </TouchableOpacity>
         )
       }
-      <TouchableOpacity style={styles.ButtonNew} onPress={() => console.log(employee.id)}>
-        <Text>ConsoleLog</Text>
-      </TouchableOpacity>
     </Layout>
   )
 };

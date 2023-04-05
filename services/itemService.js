@@ -1,4 +1,5 @@
-const API = 'https://api-proyectsapp.onrender.com';
+// const API = 'https://api-proyectsapp.onrender.com';
+const API = 'http://10.0.2.2:4000'
 
 export const getProyectItems = async (id) => {
     const res = await fetch(`${API}/items/${id}`);

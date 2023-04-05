@@ -1,4 +1,5 @@
-const API = 'https://api-proyectsapp.onrender.com';
+// const API = 'https://api-proyectsapp.onrender.com';
+const API = 'http://10.0.2.2:4000'
 
 export const getEmployees = async (id) => {
     const res = await fetch(`${API}/employees/${id}`);
@@ -26,7 +27,7 @@ export const updateEmployee = async (employee) => {
     });
 };
 
-export const deleteEmployee = async (employee) => {
+export const deleteEmployee = async (id) => {
     await fetch(`${API}/employees/${id}`, {
         method: 'DELETE',
     });

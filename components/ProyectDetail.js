@@ -4,13 +4,13 @@ import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 import { getProyect} from '../services/proyectsService'
 import { deleteItem, getProyectItems } from '../services/itemService'
-import { getEmployees } from '../services/employeesService';
+import { deleteEmployee, getEmployees } from '../services/employeesService';
 
 import ItemDetail from './ItemDetail'
 import EmployeeList from './EmployeeList';
 
 const ProyectDetail = (id) => {
-
+    
     const navigation = useNavigation();
 
     const isFocused = useIsFocused();

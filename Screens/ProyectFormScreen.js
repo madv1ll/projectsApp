@@ -81,6 +81,13 @@ const ProyectFormScreen = ({ navigation, route }) => {
         const proyect = await getProyect(route.params.id);
         setProyect({ name: proyect.name, price: proyect.price, startDate: proyect.startdate, finishDate: proyect.finishdate });
       })();
+    } else {
+      setProyect({
+        name: '',
+        price: '',
+        startDate: startDate.toISOString().split('T')[0],
+        finishDate: finishDate.toISOString().split('T')[0]
+      });
     }
   }, []);
 
@@ -97,7 +104,7 @@ const ProyectFormScreen = ({ navigation, route }) => {
           editable= {false}
           style={styles.datesInput} 
           placeholder= 'Start Date'
-          value={formatDate(Proyect.startDate)}/>
+          value={startDate.toISOString().split('T')[0]}/>
         <TouchableOpacity style={styles.buttonDates} onPress={showDatepicker} >
           <Text style={styles.buttonText}>Date</Text>
         </TouchableOpacity>
@@ -107,7 +114,7 @@ const ProyectFormScreen = ({ navigation, route }) => {
         editable= {false}
           style={styles.datesInput} 
           placeholder= 'Finish Date' 
-          value={formatDate(Proyect.finishDate)} 
+          value={finishDate.toISOString().split('T')[0]} 
         />
         <TouchableOpacity style={styles.buttonDates} onPress={showDatepickerF} >
           <Text style={styles.buttonText}>Date</Text>

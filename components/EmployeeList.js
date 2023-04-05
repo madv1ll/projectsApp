@@ -14,6 +14,7 @@ const EmployeeList = ({ employee, handleDelete }) => {
         <Text style={styles.textEmployee}>Start Date: {employee.startdate}</Text>
         <Text style={styles.textEmployee}>Finish Date: {employee.finishdate}</Text>
         <Text style={styles.textEmployee}>Salary: {employee.salary}</Text>
+        <Text style={styles.textEmployee}>Total Days: {employee.workdays}</Text>
       </View>
       <View>
       <TouchableOpacity 

@@ -27,7 +27,8 @@ const App = () => {
                                 <Text style={{color: '#ffffff', marginRight: 20, padding: 8, fontSize:18, borderRadius: 100, backgroundColor: '#10ac84'}}> New </Text>
                             </TouchableOpacity>
                         )
-                        })} />
+                        })} 
+                    />
                 <Stack.Screen
                     name="ProyectForm"
                     component={ProyectFormScreen}
@@ -36,34 +37,37 @@ const App = () => {
                         headerStyle: {backgroundColor: '#222f3e'}, 
                         headerTitleStyle: {color: '#ffffff'},
                         headerTintColor: '#ffffff',
-                    }}/>
+                    }}
+                />
                 <Stack.Screen
-                name="ProyectHome"
-                component={ProyectHomeScreen}
-                options={{
-                    title: 'Your Proyects',
-                    headerStyle: {backgroundColor: '#222f3e'}, 
-                    headerTitleStyle: {color: '#ffffff'},
-                    headerTintColor: '#ffffff',
-                }}/>
+                    name="ProyectHome"
+                    component={ProyectHomeScreen}
+                    options={{
+                        title: 'Your Proyects',
+                        headerStyle: {backgroundColor: '#222f3e'}, 
+                        headerTitleStyle: {color: '#ffffff'},
+                        headerTintColor: '#ffffff',
+                    }}
+                />
                 <Stack.Screen
-                name="ItemForm"
-                component={ItemFormScreen}
-                options={{
-                    title: 'Create New Item',
-                    headerStyle: {backgroundColor: '#222f3e'}, 
-                    headerTitleStyle: {color: '#ffffff'},
-                    headerTintColor: '#ffffff',
-                }}/>
+                    name="ItemForm"
+                    component={ItemFormScreen}
+                    options={{
+                        title: 'Create New Item',
+                        headerStyle: {backgroundColor: '#222f3e'}, 
+                        headerTitleStyle: {color: '#ffffff'},
+                        headerTintColor: '#ffffff',
+                    }}
+                />
                 <Stack.Screen
-                name="EmployeeForm"
-                component={EmployeeFormScreen}
-                options={{
-                    title: 'Create New Employee',
-                    headerStyle: {backgroundColor: '#222f3e'}, 
-                    headerTitleStyle: {color: '#ffffff'},
-                    headerTintColor: '#ffffff',
-                }}
+                    name="EmployeeForm"
+                    component={EmployeeFormScreen}
+                    options={{
+                        title: 'Create New Employee',
+                        headerStyle: {backgroundColor: '#222f3e'}, 
+                        headerTitleStyle: {color: '#ffffff'},
+                        headerTintColor: '#ffffff',
+                    }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
