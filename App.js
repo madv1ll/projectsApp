@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -9,9 +9,17 @@ import ProyectHomeScreen from "./Screens/ProyectHomeScreen";
 import ItemFormScreen from "./Screens/ItemFormScreen";
 import EmployeeFormScreen from "./Screens/EmployeeFormScreen";
 
+import { createTables } from "./config/database";
+
+
 const Stack = createNativeStackNavigator();
 
+
 const App = () => {
+    useEffect(()=>{
+        createTables();
+    },[]);
+
     return (
         <NavigationContainer>
             <Stack.Navigator>
