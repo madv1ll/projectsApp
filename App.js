@@ -9,6 +9,7 @@ import ProjectFormScreen from "./Screens/ProjectFormScreen";
 import ItemFormScreen from "./Screens/ItemFormScreen";
 import EmployeeFormScreen from "./Screens/EmployeeFormScreen";
 import { createTables } from "./config/dataBase";
+import { generateExcel } from "./config/excel";
 
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +54,11 @@ const App = () => {
             headerStyle: {backgroundColor: '#222f3e'}, 
             headerTitleStyle: {color: '#ffffff'},
             headerTintColor: '#ffffff',
+            headerRight: () => (
+              <TouchableOpacity onPress={ () => generateExcel()}>
+                <Text style={{color: '#ffffff', marginRight: 20, padding: 8, fontSize:18, borderRadius: 100, backgroundColor: '#10ac84'}}> Excel </Text>
+              </TouchableOpacity>
+              )
           }}
         />
         <Stack.Screen
