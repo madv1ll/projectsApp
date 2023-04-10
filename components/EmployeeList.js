@@ -5,16 +5,17 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 const EmployeeList = ({ employee, handleDelete }) => {
 
   const navigation = useNavigation();
-
+  const sDate = employee.startDate.split('-')[2]+'-'+employee.startDate.split('-')[1]+'-'+employee.startDate.split('-')[0];
+  const fDate = employee.finishDate.split('-')[2]+'-'+employee.finishDate.split('-')[1]+'-'+employee.finishDate.split('-')[0];
   return (
     <View style={styles.employeeContainer}>
       <View >
         <Text style={styles.textEmployee}>Name: {employee.name}</Text>
-        <Text style={styles.textEmployee}>Last Name: {employee.lastname}</Text>
-        <Text style={styles.textEmployee}>Start Date: {employee.startdate}</Text>
-        <Text style={styles.textEmployee}>Finish Date: {employee.finishdate}</Text>
+        <Text style={styles.textEmployee}>Last Name: {employee.lastName}</Text>
+        <Text style={styles.textEmployee}>Start Date: {sDate}</Text>
+        <Text style={styles.textEmployee}>Finish Date: {fDate}</Text>
         <Text style={styles.textEmployee}>Salary: {employee.salary}</Text>
-        <Text style={styles.textEmployee}>Total Days: {employee.workdays}</Text>
+        <Text style={styles.textEmployee}>Total Days: {employee.workDays}</Text>
       </View>
       <View>
       <TouchableOpacity 

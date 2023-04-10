@@ -3,7 +3,7 @@ import Layout from '../components/Layout'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 
-import { addEmployee, getEmployee, getEmployees, updateEmployee } from '../services/employeesService';
+import { createEmployee, getEmployee, updateEmployee } from '../services/employeesService';
 
 const EmployeeFormScreen = ({ navigation, route } ) => {
 
@@ -55,12 +55,20 @@ const EmployeeFormScreen = ({ navigation, route } ) => {
     const handleSubmit = async () => {
       try {
         if (!editing) {
-          setEmployee({ ...employee, ["projectid"]: route.params.proyectId })
-          await addEmployee(employee);
-          navigation.navigate('ProyectHome', {id: route.params.proyectId});
+          setEmployee({ ...employee, ["projectid"]: route.params.projectid })
+          try {
+            await createEmployee(employee);
+          } catch (error) {
+            console.log(error)
+          }
+          navigation.navigate('ProjectHome', {id: route.params.projectid});
         } else {
-          await updateEmployee(employee);
-          navigation.navigate('ProyectHome', {id: employee.projectid});
+          try {
+            await updateEmployee(employee);
+          } catch (error) {
+            console.log(error)
+          }
+          navigation.navigate('ProjectHome', {id: employee.projectid});
         }
       } catch (error) {
         console.error(error);
@@ -88,17 +96,21 @@ const EmployeeFormScreen = ({ navigation, route } ) => {
         navigation.setOptions({ headerTitle: 'Updating an Employee' });
         setEditing(true);
         (async () => {
-          const [data] = await getEmployee(route.params.employeeToUpdate.id);
-          setEmployee({
-            id: data.id,
+          try{
+            const [data] = await getEmployee(route.params.employeeToUpdate.id);
+            setEmployee({
+              id: data.id,
               name: data.name,
-              lastname: data.lastname,
-              startdate: data.startdate,
-              finishdate: data.finishdate,
-              projectid: data.projectid,
+              lastname: data.lastName,
+              startdate: data.startDate,
+              finishdate: data.finishDate,
+              projectid: data.projectId,
               salary: data.salary,
-              workdays : data.workdays
-          });
+              workdays : data.workDays
+            });
+          }catch(error){
+            console.log(error)
+          }
           })();
       } else {
         setEmployee({
@@ -106,7 +118,7 @@ const EmployeeFormScreen = ({ navigation, route } ) => {
           lastname: '',
           startdate: startDate.toISOString().split('T')[0],
           finishdate: startDate.toISOString().split('T')[0],
-          projectid: route.params.proyectId,
+          projectid: route.params.projectid,
           salary: '',
           workdays: ''
         });

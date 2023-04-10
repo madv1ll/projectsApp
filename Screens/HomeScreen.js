@@ -1,11 +1,11 @@
 import React  from 'react'
 
 import Layout from '../components/Layout';
-import ProyectList from '../components/ProyectList';
+import ProjectList from '../components/ProjectList';
 
 const HomeScreen = () => (
     <Layout>
-       <ProyectList />
+       <ProjectList />
     </Layout>
   )
 

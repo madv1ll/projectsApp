@@ -2,7 +2,7 @@ import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 import Layout from '../components/Layout';
-import { addItem, getItem, updateItem } from '../services/itemService';
+import { createItem, getItem, updateItem } from '../services/itemService';
 
 const ItemFormScreen = ({ navigation, route  }) => {
   const [item, setItem] = useState({
@@ -10,9 +10,10 @@ const ItemFormScreen = ({ navigation, route  }) => {
     unitPrice: '',
     quantity: '',
     totalPrice: '',
-    proyectId: '',
+    projectid: '',
     purchaseDate: '',
   });
+
   const [editing, setEditing] = useState(false);
   const [purchaseDate, setPurchasedate] = useState(new Date());
 
@@ -20,13 +21,13 @@ const ItemFormScreen = ({ navigation, route  }) => {
   const handleSubmit = async () => {
     try {
       if (!editing) {
-        setItem({ ...item, ["proyectId"]: route.params.proyectId.toString() })
-        await addItem(item);
+        setItem({ ...item, ["projectid"]: route.params.projectid.toString() })
+        await createItem(item);
+        navigation.navigate('ProjectHome', {id: route.params.projectid});
 
-        navigation.navigate('ProyectHome', {id: route.params.proyectId});
       } else {
-        await updateItem(route.params.itemToUpdate.id,item);
-        navigation.navigate('ProyectHome', {id: route.params.itemToUpdate.proyectid});
+          await updateItem(item);
+        navigation.navigate('ProjectHome', {id: route.params.itemToUpdate.projectid});
       }
     } catch (error) {
       console.error(error);
@@ -70,14 +71,21 @@ const ItemFormScreen = ({ navigation, route  }) => {
       navigation.setOptions({ headerTitle: 'Updating an Item' });
       setEditing(true);
       (async () => {
-        const [data] = await getItem(route.params.itemToUpdate.id);
-        setItem({
-          name: data.name,
-          unitPrice: data.unitprice,
-          quantity: data.quantity,
-          totalPrice: data.totalprice,
-          proyectId: data.proyectid,
-          purchaseDate: data.purchasedate, });
+        try{
+          const [data] = await getItem(route.params.itemToUpdate.id);
+          console.log("data",data)
+          setItem({
+            id: data.id,
+            name: data.name,
+            unitPrice: data.unitPrice,
+            quantity: data.quantity,
+            totalPrice: data.totalPrice,
+            projectid: data.projectid,
+            purchaseDate: data.purchaseDate, });
+
+        }catch(error){
+          console.log(error)
+        }
       })();
     } else{
       setItem({
@@ -85,8 +93,8 @@ const ItemFormScreen = ({ navigation, route  }) => {
         unitPrice: '',
         quantity: '',
         totalPrice: '',
-        proyectId: route.params.proyectId,
-        purchaseDate: '' });
+        projectid: route.params.projectid,
+        purchaseDate: purchaseDate.toISOString().split('T')[0] });
     }
   },[]);
 
@@ -130,7 +138,7 @@ const ItemFormScreen = ({ navigation, route  }) => {
           style={styles.datesInput} 
           placeholder='Purchase Date'
           onChangeText={text => handleChange('purchaseDate', text)}
-          value={ formatDate(item.purchaseDate) }
+          value={purchaseDate.toISOString().split('T')[0].split('-')[2]+'-'+purchaseDate.toISOString().split('T')[0].split('-')[1]+'-'+purchaseDate.toISOString().split('T')[0].split('-')[0]}
         />
         <TouchableOpacity style={styles.buttonDates} onPress={showDatepicker} >
           <Text style={styles.buttonText}>Date</Text>

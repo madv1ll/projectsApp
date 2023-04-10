@@ -1,30 +1,33 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
-const ProyectItem = ({ proyect, handleDelete }) => {
+const ProjectItem = ({ project, handleDelete }) => {
 
   const navigation = useNavigation();
+  const sDate = project.startDate.split('-')[2]+'-'+project.startDate.split('-')[1]+'-'+project.startDate.split('-')[0];
+  const fDate = project.finishDate.split('-')[2]+'-'+project.finishDate.split('-')[1]+'-'+project.finishDate.split('-')[0];
 
   return (
     <TouchableOpacity>
       <View
-        onStartShouldSetResponder={() => navigation.navigate('ProyectHome', { id: proyect.id })}
+        onStartShouldSetResponder={() => {navigation.navigate('ProjectHome', { id: project.id})}}
         style={styles.itemContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('ProyectHome', { id: proyect.id })}>
-        <Text style={styles.itemTitle}>Name : {proyect.name}</Text>
-        <Text style={styles.itemTitle}>Start Date : {proyect.startdate}</Text>
-        <Text style={styles.itemTitle}>Price : {proyect.price}</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('ProjectHome', { id: project.id })}>
+        <Text style={styles.itemTitle}>Name : {project.name}</Text>
+        <Text style={styles.itemTitle}>Start Date : {sDate}</Text>
+        <Text style={styles.itemTitle}>Finish Date : {fDate}</Text>
+        <Text style={styles.itemTitle}>Price : {project.price}</Text>
         </TouchableOpacity>
         <View>
           <TouchableOpacity
             style={ styles.buttonUpdate }
-            onPress={() => navigation.navigate('ProyectForm', { id: proyect.id })}
+            onPress={() => navigation.navigate('ProjectForm', { id: project.id })}
           >
             <Text style={{ color: "white" }}>Modify</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.buttonDelete }
-            onPress={() => handleDelete(proyect.id)}
+            onPress={() => handleDelete(project.id)}
           >
             <Text style={{ color: "white" }}>Delete</Text>
           </TouchableOpacity>
@@ -59,4 +62,4 @@ const styles = StyleSheet.create({
     borderRadius: 5
   }
 });
-export default ProyectItem
+export default ProjectItem

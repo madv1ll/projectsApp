@@ -2,41 +2,53 @@ import { useState, useEffect } from 'react'
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 
-import { getProyect} from '../services/proyectsService'
-import { deleteItem, getProyectItems } from '../services/itemService'
+import { getProject} from '../services/projectsService'
+import { deleteItem, getProjectItems } from '../services/itemService'
 import { deleteEmployee, getEmployees } from '../services/employeesService';
 
 import ItemDetail from './ItemDetail'
 import EmployeeList from './EmployeeList';
 
-const ProyectDetail = (id) => {
-    
+const ProjectDetail = (id) => {
+
     const navigation = useNavigation();
 
     const isFocused = useIsFocused();
 
     const [items, setItems] = useState([]);
-    const [proyect, setProyect] = useState([]);
-    const [employees, setEmployees] = useState([]);
+    const [project, setProject] = useState([]);
+    const [employee, setEmployee] = useState([]);
     
     const loadItems = async (id) =>{
-        const data = await getProyectItems(id);
+      try{
+        const data = await getProjectItems(id);
         setItems(data)
+      }catch(error){
+        console.log(error)
+      }
     };
     
-    const loadProyect = async (id) => {
-        const data = await getProyect(id);
-        setProyect(data);
+    const loadProject = async (id) => {
+      try {
+        const [data] = await getProject(id);
+        setProject(data);
+      } catch (error) {
+        console.error(error);
+      }
     };
     
     const loadEmployees = async (id) => {
+      try{
         const data = await getEmployees(id);
-        setEmployees(data);
+        setEmployee(data);
+      }catch(error){
+        console.log(error)
+      }
     };
     const handleDelete = async (itemid) => {
         await deleteItem(itemid);
         loadItems(id.id);
-        loadProyect(id.id);
+        loadProject(id.id);
       }
     const handleEmployeeDelete = async (employeeid) => {
         await deleteEmployee(employeeid);
@@ -45,7 +57,7 @@ const ProyectDetail = (id) => {
 
     useEffect(() => {
         loadItems(id.id);
-        loadProyect(id.id);
+        loadProject(id.id);
         loadEmployees(id.id);
     }, [isFocused]);
     
@@ -59,11 +71,11 @@ const ProyectDetail = (id) => {
     
   return (
     <View style={{width: '100%'}}>
-        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold'}}>Proyecto: {proyect.name}</Text>
+        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold'}}>Project: {project.name}</Text>
         <View >
             <View style={styles.itemTitleContainer}>
                 <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold',}}>Items</Text>
-                <TouchableOpacity style={styles.ButtonNew} onPress={ () => navigation.navigate('ItemForm', {proyectId : id.id})}>
+                <TouchableOpacity style={styles.ButtonNew} onPress={ () => navigation.navigate('ItemForm', {projectid : id.id})}>
                     <Text style={{color: '#ffffff'}}>New Item</Text>
                 </TouchableOpacity>
             </View >
@@ -77,14 +89,14 @@ const ProyectDetail = (id) => {
             </View>
             <View style={styles.itemTitleContainer}>
                 <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold',}}>Employees</Text>
-                <TouchableOpacity style={styles.ButtonNew} onPress={ () => navigation.navigate('EmployeeForm', {proyectId : id.id})}>
+                <TouchableOpacity style={styles.ButtonNew} onPress={ () => navigation.navigate('EmployeeForm', {projectid : id.id})}>
                         <Text style={{color: '#ffffff'}}>New Employee</Text>
                 </TouchableOpacity>
             </View>
             <View>
                 <FlatList
                 style={{ width: '100%' }}
-                data={ employees }
+                data={ employee }
                 keyExtractor={item => item.id + ''}
                 renderItem={ renderEmployee }
                 />
@@ -110,4 +122,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ProyectDetail
+export default ProjectDetail

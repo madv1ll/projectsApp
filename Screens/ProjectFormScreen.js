@@ -2,13 +2,13 @@ import { Text, TextInput, StyleSheet, TouchableOpacity, Button, View } from 'rea
 import React, { useState, useEffect } from 'react'
 
 import Layout from '../components/Layout'
-import { saveProyect, getProyect, updateProyect } from '../services/proyectsService'
+import { createProject, getProject, updateProject } from '../services/projectsService'
 
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 
-const ProyectFormScreen = ({ navigation, route }) => {
+const ProjectFormScreen = ({ navigation, route }) => {
 
-  const [Proyect, setProyect] = useState({
+  const [Project, setProject] = useState({
     name: '',
     startDate: '',
     finishDate: '',
@@ -45,14 +45,14 @@ const ProyectFormScreen = ({ navigation, route }) => {
     });
   };
 
-  const handleChange = (name, value) => setProyect({ ...Proyect, [name]: value });
+  const handleChange = (name, value) => setProject({ ...Project, [name]: value });
 
   const handleSubmit = async () => {
     try {
       if (!editing) {
-        await saveProyect(Proyect);
+        await createProject(Project);
       } else {
-        await updateProyect(route.params.id,Proyect);
+        await updateProject(route.params.id,Project);
       }
       navigation.navigate('Home');
     } catch (error) {
@@ -75,14 +75,22 @@ const ProyectFormScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     if (route.params && route.params.id) {
-      navigation.setOptions({ headerTitle: 'Updating a Proyect' });
+      navigation.setOptions({ headerTitle: 'Updating a Project' });
       setEditing(true);
       (async () => {
-        const proyect = await getProyect(route.params.id);
-        setProyect({ name: proyect.name, price: proyect.price, startDate: proyect.startdate, finishDate: proyect.finishdate });
+        try {
+          const [project] = await getProject(route.params.id);
+          setProject({ name: project.name, price: project.price, startDate: project.startDate, finishDate: project.finishDate });
+          const sDate = project.startDate.split('-')[2]+'-'+project.startDate.split('-')[1]+'-'+project.startDate.split('-')[0];
+          const fDate = project.finishDate.split('-')[2]+'-'+project.finishDate.split('-')[1]+'-'+project.finishDate.split('-')[0];
+          setStartDate(new Date(sDate));
+          setFinishDate(new Date(fDate));
+        } catch {
+          console.error(error);
+        }
       })();
     } else {
-      setProyect({
+      setProject({
         name: '',
         price: '',
         startDate: startDate.toISOString().split('T')[0],
@@ -95,16 +103,16 @@ const ProyectFormScreen = ({ navigation, route }) => {
     <Layout>
       <TextInput
         style={styles.input}
-        placeholder='Proyect Name'
+        placeholder='Project Name'
         onChangeText={text => handleChange('name', text)}
-        value={Proyect.name}
+        value={Project.name}
       />
       <View style={styles.datesView}>
         <TextInput 
           editable= {false}
           style={styles.datesInput} 
           placeholder= 'Start Date'
-          value={startDate.toISOString().split('T')[0]}/>
+          value={startDate.toISOString().split('T')[0].split('-')[2]+'-'+startDate.toISOString().split('T')[0].split('-')[1]+'-'+startDate.toISOString().split('T')[0].split('-')[0]}/>
         <TouchableOpacity style={styles.buttonDates} onPress={showDatepicker} >
           <Text style={styles.buttonText}>Date</Text>
         </TouchableOpacity>
@@ -114,27 +122,26 @@ const ProyectFormScreen = ({ navigation, route }) => {
         editable= {false}
           style={styles.datesInput} 
           placeholder= 'Finish Date' 
-          value={finishDate.toISOString().split('T')[0]} 
-        />
+          value={finishDate.toISOString().split('T')[0].split('-')[2]+'-'+finishDate.toISOString().split('T')[0].split('-')[1]+'-'+finishDate.toISOString().split('T')[0].split('-')[0]}/>
         <TouchableOpacity style={styles.buttonDates} onPress={showDatepickerF} >
           <Text style={styles.buttonText}>Date</Text>
         </TouchableOpacity>
       </View>
       <TextInput
         style={styles.input}
-        placeholder='Proyect Price'
+        placeholder='Project Price'
         onChangeText={text => handleChange('price', text)}
-        value={Proyect.price.toString()}
+        value={Project.price.toString()}
         keyboardType='numeric'
       />
       {
         !editing ? (
           <TouchableOpacity style={styles.buttonSave} onPress={handleSubmit} >
-            <Text style={styles.buttonText}>Add Proyect</Text>
+            <Text style={styles.buttonText}>Add Project</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity style={styles.buttonUpdate} onPress={handleSubmit} >
-            <Text style={styles.buttonText}>Update Proyect</Text>
+            <Text style={styles.buttonText}>Update Project</Text>
           </TouchableOpacity>
         )
       }
@@ -211,4 +218,4 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   }
 })
-export default ProyectFormScreen
+export default ProjectFormScreen

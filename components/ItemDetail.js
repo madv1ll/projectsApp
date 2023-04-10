@@ -4,14 +4,15 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 const ItemDetail = ({ item, handleDelete }) => {
 
   const navigation = useNavigation();
+  const pDate = item.purchaseDate.split('-')[2]+'-'+item.purchaseDate.split('-')[1]+'-'+item.purchaseDate.split('-')[0]
   
   return (
     <View style={styles.itemContainer} >
       <View >
         <Text style={styles.textItem}>Name: {item.name}</Text>
         <Text style={styles.textItem}>Quantity: {item.quantity}</Text>
-        <Text style={styles.textItem}>Total Price: {item.totalprice}</Text>
-        <Text style={styles.textItem}>Purchase Date: {item.purchasedate}</Text>
+        <Text style={styles.textItem}>Total Price: {item.totalPrice}</Text>
+        <Text style={styles.textItem}>Purchase Date: {pDate}</Text>
       </View>
       <View >
         <TouchableOpacity 

@@ -1,32 +1,51 @@
-const API = 'https://api-proyectsapp.onrender.com';
+import * as SQLite from "expo-sqlite";
 
-export const getProyectItems = async (id) => {
-    const res = await fetch(`${API}/items/${id}`);
-    return await res.json();
+const db = SQLite.openDatabase("projects.db");
+
+export const getProjectItems = async (id) => {
+  return new Promise((resolve, reject) => {
+    db.transaction(tx => {
+      tx.executeSql(`SELECT id, name, unitprice, quantity, totalprice, projectid, purchasedate FROM item where projectid =?`,
+        [id],
+        (sqlTxn, res) => resolve(res.rows._array),
+        error => reject('Error on SELECT items: ' + error));
+    });
+  });
 };
 
 export const getItem = async (id) => {
-    const res = await fetch(`${API}/items/desc/${id}`);
-    return await res.json();
+  return new Promise((resolve, reject) => {
+    db.transaction(tx => {
+      tx.executeSql(`SELECT id, name, unitprice, quantity, totalprice, projectid, purchasedate FROM item where id =?`,
+        [id],
+        (sqlTxn, res) => resolve(res.rows._array),
+        error => reject('Error on SELECT item: ' + error));
+    });
+  });
 };
 
-export const addItem = async (item) => {
-    await fetch(`${API}/items`, {
-        method: 'POST',
-        headers: { accept: 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify(item)
-    });
+export const createItem = async (item) => {
+  db.transaction(tx => {
+    tx.executeSql(`INSERT INTO item (name, unitPrice, quantity, totalPrice, projectid, purchaseDate) VALUES (?, ?, ?, ?, ?, ?)`,
+      [item.name, item.unitPrice, item.quantity, item.totalPrice, item.projectid, item.purchaseDate],
+      (sqlTxn, res) => console.log('Item inserted succesfully. Id =',res.insertId),
+      error => console.log('Error on INSERT'));
+  });
 };
-export const updateItem = async (id,item) => {
-    await fetch(`${API}/items/${id}`, {
-        method: 'PUT',
-        headers: { accept: 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify(item)
-    });
+export const updateItem = async (item) => {
+  db.transaction(tx => {
+    tx.executeSql(`UPDATE item SET name=?, unitPrice=?, quantity=?, totalPrice=?, projectid=?, purchaseDate=? WHERE id=?`,
+      [item.name, item.unitPrice, item.quantity, item.totalPrice, item.projectid, item.purchaseDate, item.id],
+      (sqlTxn, res) => console.log(`item of id = ${item.id} was updated.`),
+      error => console.log('Error on UPDATE item'));
+  });
 };
 
 export const deleteItem = async (id) => {
-    await fetch(`${API}/items/${id}`, {
-        method: 'DELETE',
-    });
+  db.transaction(tx => {
+    tx.executeSql(`DELETE FROM item WHERE id=?`,
+      [id],
+      (sqlTxn, res) => console.log(`Item of id = ${id} was deleted.`),
+      error => console.log('Error on DELETE item'));
+  });
 };
