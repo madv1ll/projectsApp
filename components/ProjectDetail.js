@@ -9,6 +9,8 @@ import { deleteEmployee, getEmployees } from '../services/employeesService';
 import ItemDetail from './ItemDetail'
 import EmployeeList from './EmployeeList';
 
+import { generateExcel } from "../config/excel";
+
 const ProjectDetail = (id) => {
 
     const navigation = useNavigation();
@@ -72,6 +74,9 @@ const ProjectDetail = (id) => {
   return (
     <View style={{width: '100%'}}>
         <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold'}}>Project: {project.name}</Text>
+        <TouchableOpacity onPress={ () => generateExcel(project, items, employee)}>
+                <Text style={{color: '#ffffff', marginRight: 20, padding: 8, fontSize:18, borderRadius: 100, backgroundColor: '#10ac84'}}> Excel </Text>
+        </TouchableOpacity>
         <View >
             <View style={styles.itemTitleContainer}>
                 <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold',}}>Items</Text>
