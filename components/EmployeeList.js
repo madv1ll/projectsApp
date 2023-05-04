@@ -1,15 +1,17 @@
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { MaterialIcons } from '@expo/vector-icons';
 
 const EmployeeList = ({ employee, handleDelete }) => {
 
   const navigation = useNavigation();
-  const sDate = employee.startDate.split('-')[2]+'-'+employee.startDate.split('-')[1]+'-'+employee.startDate.split('-')[0];
-  const fDate = employee.finishDate.split('-')[2]+'-'+employee.finishDate.split('-')[1]+'-'+employee.finishDate.split('-')[0];
+  const sDate = employee.startDate.split('-')[2] + '-' + employee.startDate.split('-')[1] + '-' + employee.startDate.split('-')[0];
+  const fDate = employee.finishDate.split('-')[2] + '-' + employee.finishDate.split('-')[1] + '-' + employee.finishDate.split('-')[0];
+  
   return (
     <View style={styles.employeeContainer}>
-      <View >
+      <View style={styles.textContainer}>
         <Text style={styles.textEmployee}>Name: {employee.name}</Text>
         <Text style={styles.textEmployee}>Last Name: {employee.lastName}</Text>
         <Text style={styles.textEmployee}>Start Date: {sDate}</Text>
@@ -18,17 +20,17 @@ const EmployeeList = ({ employee, handleDelete }) => {
         <Text style={styles.textEmployee}>Total Days: {employee.workDays}</Text>
       </View>
       <View>
-      <TouchableOpacity 
+        <TouchableOpacity 
           style={styles.buttonUpdate}
-          onPress={() => navigation.navigate('EmployeeForm', {employeeToUpdate: employee})}
-          >
-          <Text style={{ color: '#ffffff' }}>Modify</Text>
+          onPress={() => navigation.navigate('EmployeeForm', { employeeToUpdate: employee })}
+        >
+          <MaterialIcons name="edit" size={24} color="#ffffff" />
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.buttonDelete }
+          style={styles.buttonDelete}
           onPress={() => handleDelete(employee.id)}
-          >
-        <Text style={{ color: "white" }}>Delete</Text>
+        >
+          <MaterialIcons name="delete" size={24} color="#ffffff" />
         </TouchableOpacity>
       </View>
     </View>
@@ -36,31 +38,36 @@ const EmployeeList = ({ employee, handleDelete }) => {
 };
 
 const styles = StyleSheet.create({
-    employeeContainer: {
-      backgroundColor: '#333333',
-      padding: 10,
-      margin: 10,
-      borderRadius: 10,
-      alignItems: 'flex-start',
-      justifyContent: 'center',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-    textEmployee: {
-      fontSize: 15,
-      color: '#ffffff',
-    },
-    buttonUpdate: {
-      backgroundColor: "#0a3d62",
-      padding: 7, 
-      borderRadius: 5,
-      marginBottom: 10,
-    },
-    buttonDelete: {
-      backgroundColor: "#ee5253", 
-      padding: 7, 
-      borderRadius: 5
-    },
-  });
+  employeeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 10,
+    elevation: 2,
+  },
+  textContainer: {
+    flex: 1,
+  },
+  textEmployee: {
+    fontSize: 15,
+    color: '#222f3e',
+  },
+  buttonUpdate: {
+    backgroundColor: '#0a3d62',
+    padding: 7,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  buttonDelete: {
+    backgroundColor: '#ee5253',
+    padding: 7,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '#ffffff',
+  },
+});
 
-export default EmployeeList
+export default EmployeeList;

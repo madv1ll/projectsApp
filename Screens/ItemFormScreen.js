@@ -1,8 +1,9 @@
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { useEffect, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Layout from '../components/Layout';
 import { createItem, getItem, updateItem } from '../services/itemService';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const ItemFormScreen = ({ navigation, route  }) => {
   const [item, setItem] = useState({
@@ -100,138 +101,131 @@ const ItemFormScreen = ({ navigation, route  }) => {
 
   return (
     <Layout>
-      <Text style={styles.labelText}>Item Name</Text>
-      <TextInput
-        style={styles.input}
-        placeholder='Item Name'
-        onChangeText={text => handleChange('name', text)}
-        value={item.name}
-      />
-      <Text style={styles.labelText}>Unit Price</Text>
-      <TextInput
-        style={styles.input}
-        placeholder='Unit Price'
-        onChangeText={text => handleChange('unitPrice', text)}
-        value={item.unitPrice.toString()}
-        keyboardType='numeric'
-      />
-      <Text style={styles.labelText}>Quantity</Text>
-      <TextInput
-        style={styles.input}
-        placeholder='Quantity'
-        onChangeText={text => handleChange('quantity', text)}
-        value={item.quantity.toString()}
-        keyboardType='numeric'
-      />
-      <Text style={styles.labelText}>Total Price</Text>
-      <TextInput
-        style={styles.input}
-        placeholder='Total Price'
-        onChangeText={text => handleChange('totalPrice', text)}
-        value={item.totalPrice.toString()}
-        keyboardType='numeric'
-      />
+      <View style={styles.container}>
+        <Text style={styles.labelText}>Item Name</Text>
+        <TextInput
+          style={styles.input}
+          placeholder='Item Name'
+          onChangeText={(text) => handleChange('name', text)}
+          value={item.name}
+        />
+        <Text style={styles.labelText}>Unit Price</Text>
+        <TextInput
+          style={styles.input}
+          placeholder='Unit Price'
+          onChangeText={text => handleChange('unitPrice', text)}
+          value={item.unitPrice.toString()}
+          keyboardType='numeric'
+        />
+        <Text style={styles.labelText}>Quantity</Text>
+        <TextInput
+          style={styles.input}
+          placeholder='Quantity'
+          onChangeText={text => handleChange('quantity', text)}
+          value={item.quantity.toString()}
+          keyboardType='numeric'
+        />
+        <Text style={styles.labelText}>Total Price</Text>
+        <TextInput
+          style={styles.input}
+          placeholder='Total Price'
+          onChangeText={(text) => handleChange('totalPrice', text)}
+          value={item.totalPrice.toString()}
+          keyboardType='numeric'
+        />
         <Text style={styles.labelText}>Purchase Date</Text>
-      <View style={styles.datesView}>
+        <View style={styles.datesView}>
         <TextInput
           editable={false}
-          style={styles.datesInput} 
+          style={styles.datesInput}
           placeholder='Purchase Date'
-          onChangeText={text => handleChange('purchaseDate', text)}
-          value={purchaseDate.toISOString().split('T')[0].split('-')[2]+'-'+purchaseDate.toISOString().split('T')[0].split('-')[1]+'-'+purchaseDate.toISOString().split('T')[0].split('-')[0]}
+          onChangeText={(text) => handleChange('purchaseDate', text)}
+          value={purchaseDate.toISOString().split('T')[0].split('-')[2] + '-' + purchaseDate.toISOString().split('T')[0].split('-')[1] + '-' + purchaseDate.toISOString().split('T')[0].split('-')[0]}
         />
-        <TouchableOpacity style={styles.buttonDates} onPress={showDatepicker} >
-          <Text style={styles.buttonText}>Date</Text>
+        <TouchableOpacity style={styles.buttonDates} onPress={showDatepicker}>
+          <MaterialCommunityIcons name='calendar' size={25} color='#ffffff' />
         </TouchableOpacity>
-      </View>
-      {
-        !editing ? (
-          <TouchableOpacity style={styles.buttonSave} onPress={handleSubmit} >
-            <Text style={styles.buttonText}>Add Item</Text>
+        </View>
+          {!editing ? (
+          <TouchableOpacity style={styles.buttonSave} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Add Item</Text>
           </TouchableOpacity>
-        ) : (
-          <TouchableOpacity style={styles.buttonUpdate} onPress={handleSubmit} >
-            <Text style={styles.buttonText}>Update Item</Text>
+          ) : (
+          <TouchableOpacity style={styles.buttonUpdate} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Update Item</Text>
           </TouchableOpacity>
-        )
-      }
+          )}
+        </View>
     </Layout>
-  )
+          );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
   input: {
-    width: '90%',
-    marginBottom: 7,
-    fontSize: 14,
+    width: '100%',
+    marginBottom: 10,
+    fontSize: 16,
     borderWidth: 1,
-    borderColor: '#ffffff',
+    borderColor: '#bdbdbd',
     borderRadius: 5,
     padding: 10,
-    marginVertical: 10,
     backgroundColor: '#ffffff',
-    color: '#000000'
+    color: '#000000',
+  },
+  buttonSave: {
+    marginTop: 20,
+    width: '100%',
+    paddingVertical: 10,
+    borderRadius: 5,
+    backgroundColor: '#0a3d62',
+  },
+  buttonUpdate: {
+    marginTop: 20,
+    width: '100%',
+    paddingVertical: 10,
+    borderRadius: 5,
+    backgroundColor: '#ff9800',
   },
   buttonText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff',
     textAlign: 'center',
   },
-  buttonUpdate:{
-    paddingTop: 10,
-    paddingBottom: 10,
-    borderRadius: 5,
+  datesView: {
+    flexDirection: 'row',
     marginBottom: 10,
-    backgroundColor: '#e58e26',
-    color: '#ffffff',
-    width: '90%',
+  },
+  datesInput: {
+    flex: 1,
+    marginRight: 10,
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: '#bdbdbd',
+    borderRadius: 5,
+    padding: 10,
+    backgroundColor: '#ffffff',
+    color: '#000000',
+  },
+  buttonDates: {
+    width: '17%',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#0a3d62',
   },
   labelText: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#ffffff',
+    color: '#222f3e',
     alignSelf: 'flex-start',
-    marginLeft: 20,
-  },
-  buttonSave: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-    backgroundColor: '#10ac84',
-    color: '#ffffff',
-    width: '90%',
-  },
-  buttonDates: {
-    width: '20%',
-    borderRadius: 5,
-    paddingTop: 8,
-    paddingBottom: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: "#0a3d62"
-  },
-    datesView: {
-    width: '90%',
-    flexDirection: 'row',
-    marginBottom: 10,
-    marginBottom: 7,
-    fontSize: 14,
-    borderWidth: 1,
-    borderColor: '#ffffff',
-    borderRadius: 5,
-    padding: 6,
-    marginVertical: 10,
-    backgroundColor: '#ffffff',
-    color: '#000000',
-  },
-  datesInput: {
-    color: '#000000',
-    width: '82%',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    marginLeft: 10,
   },
 });
 
-export default ItemFormScreen
+export default ItemFormScreen;

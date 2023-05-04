@@ -1,19 +1,23 @@
-import { View, StyleSheet, StatusBar } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { View, StyleSheet, StatusBar } from 'react-native';
 
 const Layout = ({ children }) => {
-    return <View 
-            style={styles.container}>
-                <StatusBar backgroundColor= '#14163f' />
-                {children}
-            </View>
-}
+  return (
+    <View style={styles.container}>
+      <StatusBar backgroundColor='#1976D2' />
+      {children}
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#14163f',
-        padding: 20,
-        flex: 1,
-        alignItems: 'center',
-    }
+  container: {
+    flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    backgroundColor: '#ECEFF1',
+    paddingTop: StatusBar.currentHeight,
+  },
 });
-export default Layout
+
+export default Layout;
