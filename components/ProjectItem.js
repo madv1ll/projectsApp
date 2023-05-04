@@ -1,65 +1,79 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const ProjectItem = ({ project, handleDelete }) => {
-
   const navigation = useNavigation();
-  const sDate = project.startDate.split('-')[2]+'-'+project.startDate.split('-')[1]+'-'+project.startDate.split('-')[0];
-  const fDate = project.finishDate.split('-')[2]+'-'+project.finishDate.split('-')[1]+'-'+project.finishDate.split('-')[0];
+  const sDate = project.startDate.split('-')[2] + '-' + project.startDate.split('-')[1] + '-' + project.startDate.split('-')[0];
+  const fDate = project.finishDate.split('-')[2] + '-' + project.finishDate.split('-')[1] + '-' + project.finishDate.split('-')[0];
 
   return (
-    <TouchableOpacity>
-      <View
-        onStartShouldSetResponder={() => {navigation.navigate('ProjectHome', { id: project.id})}}
-        style={styles.itemContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('ProjectHome', { id: project.id })}>
-        <Text style={styles.itemTitle}>Name : {project.name}</Text>
-        <Text style={styles.itemTitle}>Start Date : {sDate}</Text>
-        <Text style={styles.itemTitle}>Finish Date : {fDate}</Text>
-        <Text style={styles.itemTitle}>Price : {project.price}</Text>
-        </TouchableOpacity>
-        <View>
+    <TouchableOpacity onPress={() => navigation.navigate('ProjectHome', { id: project.id })}>
+      <View style={styles.itemContainer}>
+        <View style={styles.textContainer}>
+          <Text style={styles.itemTitle}>{project.name}</Text>
+          <Text style={styles.itemSubtitle}>Start Date: {sDate}</Text>
+          <Text style={styles.itemSubtitle}>Finish Date: {fDate}</Text>
+          <Text style={styles.itemSubtitle}>Price: {project.price}</Text>
+        </View>
+        <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={ styles.buttonUpdate }
+            style={styles.button}
             onPress={() => navigation.navigate('ProjectForm', { id: project.id })}
           >
-            <Text style={{ color: "white" }}>Modify</Text>
+            <MaterialIcons name="edit" size={24} color="#ffffff" />
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.buttonDelete }
+            style={styles.buttonDelete}
             onPress={() => handleDelete(project.id)}
           >
-            <Text style={{ color: "white" }}>Delete</Text>
+            <MaterialIcons name="delete" size={24} color="#ffffff" />
           </TouchableOpacity>
         </View>
       </View>
     </TouchableOpacity>
-  )
-}
+  );
+};
+
 const styles = StyleSheet.create({
   itemContainer: {
-    backgroundColor: '#333333',
-    padding: 10,
-    margin: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    padding: 10,
+    elevation: 2,
+  },
+  textContainer: {
+    flex: 1,
   },
   itemTitle: {
-    color: '#ffffff'
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 4,
+    color: '#222f3e',
   },
-  buttonUpdate: {
-    backgroundColor: "#0a3d62", 
-    padding: 7, 
-    borderRadius: 5, 
-    marginBottom:10
+  itemSubtitle: {
+    fontSize: 14,
+    marginBottom: 2,
+    color: '#222f3e',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  button: {
+    marginRight: 8,
+    backgroundColor: '#0a3d62',
+    borderRadius: 4,
+    padding: 6,
   },
   buttonDelete: {
-    backgroundColor: "#ee5253", 
-    padding: 7, 
-    borderRadius: 5
-  }
+    backgroundColor: '#ee5253',
+    padding: 7,
+    borderRadius: 5,
+  },
 });
-export default ProjectItem
+
+export default ProjectItem;

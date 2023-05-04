@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView  } from 'react-native'
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 import { getProject} from '../services/projectsService'
@@ -10,6 +10,8 @@ import ItemDetail from './ItemDetail'
 import EmployeeList from './EmployeeList';
 
 import { generateExcel } from "../config/excel";
+import { FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons'; 
 
 const ProjectDetail = (id) => {
 
@@ -72,59 +74,83 @@ const ProjectDetail = (id) => {
     };
     
   return (
-    <View style={{width: '100%'}}>
-        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold'}}>Project: {project.name}</Text>
-        <TouchableOpacity onPress={ () => generateExcel(project, items, employee)}>
-                <Text style={{color: '#ffffff', marginRight: 20, padding: 8, fontSize:18, borderRadius: 100, backgroundColor: '#10ac84'}}> Excel </Text>
+    <>
+      <View style={styles.pageTitle}>
+        <Text style={styles.projectTitle}>Project: {project.name}</Text>
+        <TouchableOpacity 
+          style={styles.excelButton}
+          onPress={() => generateExcel(project, items, employee)}
+        >
+          <FontAwesome5 name="file-excel" size={24} color="#ffffff" />
         </TouchableOpacity>
-        <View >
-            <View style={styles.itemTitleContainer}>
-                <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold',}}>Items</Text>
-                <TouchableOpacity style={styles.ButtonNew} onPress={ () => navigation.navigate('ItemForm', {projectid : id.id})}>
-                    <Text style={{color: '#ffffff'}}>New Item</Text>
-                </TouchableOpacity>
-            </View >
-            <View>
-                <FlatList
-                style={{ width: '100%' }}
-                data={ items }
-                keyExtractor={item => item.id + ''}
-                renderItem={renderItem}
-                />
-            </View>
-            <View style={styles.itemTitleContainer}>
-                <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold',}}>Employees</Text>
-                <TouchableOpacity style={styles.ButtonNew} onPress={ () => navigation.navigate('EmployeeForm', {projectid : id.id})}>
-                        <Text style={{color: '#ffffff'}}>New Employee</Text>
-                </TouchableOpacity>
-            </View>
-            <View>
-                <FlatList
-                style={{ width: '100%' }}
-                data={ employee }
-                keyExtractor={item => item.id + ''}
-                renderItem={ renderEmployee }
-                />
-            </View>
-        </View>
-    </View>
+      </View>
+      <View style={styles.itemTitleContainer}>
+        <Text style={styles.itemTitle}>Items</Text>
+        <TouchableOpacity
+        style={styles.newButton}
+        onPress={() => navigation.navigate('ItemForm', { projectid: id.id })}
+        >
+          <Ionicons name="create" size={24} color="#ffffff" />
+        </TouchableOpacity>
+      </View>
+      <FlatList
+        style={{ height: '50%' }}
+        data={items}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderItem}
+      />
+      <View style={styles.itemTitleContainer}>
+        <Text style={styles.itemTitle}>Employees</Text>
+        <TouchableOpacity
+          style={styles.newButton}
+          onPress={() => navigation.navigate('EmployeeForm', { projectid: id.id })}
+        >
+        <Ionicons name="create" size={24} color="#ffffff" />
+        </TouchableOpacity>
+      </View>
+        <FlatList
+        style={{ height: '50%' , marginBottom: 10 }}
+        data={employee}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderEmployee}
+        />
+    </ >
   )
 };
 const styles = StyleSheet.create({
-    itemTitleContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    ButtonNew: {
-        color: '#ffffff', 
-        marginRight: 20, 
-        padding: 8, 
-        fontSize:18, 
-        borderRadius: 100, 
-        backgroundColor: '#10ac84'
-    },
+  pageTitle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  projectTitle: {
+    fontSize: 35,
+    fontWeight: 'bold',
+    color: '#222f3e',
+  },
+  excelButton: {
+    backgroundColor: '#0a3d62',
+    padding: 10,
+    borderRadius: 5,
+    marginRight: 15,
+  },
+  itemTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  itemTitle: {
+    color: '#222f3e',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  newButton: {
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#0a3d62',
+    marginRight: 250,
+  },
 });
 
-export default ProjectDetail
+export default ProjectDetail;

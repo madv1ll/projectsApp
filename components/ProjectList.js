@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { FlatList, RefreshControl, Text } from 'react-native'
+import React, { useState, useEffect } from 'react';
+import { FlatList, RefreshControl, Text, StyleSheet, View } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
-import ProjectItem from './ProjectItem'
+import ProjectItem from './ProjectItem';
 import { deleteProject, getProjects } from '../services/projectsService';
 
 const ProjectList = () => {
-
-  const [project, setProject] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   const isFocused = useIsFocused();
@@ -15,11 +14,11 @@ const ProjectList = () => {
   const loadProjects = async () => {
     try {
       const result = await getProjects();
-      setProject(result)
+      setProjects(result);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     loadProjects();
@@ -28,35 +27,55 @@ const ProjectList = () => {
   const handleDelete = async (id) => {
     await deleteProject(id);
     await loadProjects();
-  }
+  };
 
   const renderItem = ({ item }) => {
-    return <ProjectItem project={item} handleDelete={handleDelete} />
-  }
+    return (
+      <View style={styles.projectItemContainer}>
+        <ProjectItem project={item} handleDelete={handleDelete} />
+      </View>
+    );
+  };
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
     await loadProjects();
     setRefreshing(false);
-  })
+  });
 
   return (
-    <>
-      <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold'}}>Projects List</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Projects List</Text>
       <FlatList
-        style={{ width: '100%' }}
-        data={project}
-        keyExtractor={item => item.id + ''}
+        data={projects}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
         refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            progressBackgroundColor="#0a3d62"/>
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} progressBackgroundColor="#0a3d62" />
         }
+        contentContainerStyle={styles.contentContainer} // Agrega este estilo para ocupar toda la pantalla
       />
-    </>
-  )
-}
+    </View>
+  );
+};
 
-export default ProjectList
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#f1f1f1',
+  },
+  title: {
+    color: '#222f3e',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    alignSelf: 'center',
+  },
+  projectItemContainer: {
+    flex: 1,
+  },
+  contentContainer: {
+    flexGrow: 1, // Ocupa todo el espacio vertical disponible
+  },
+});
+
+export default ProjectList;
