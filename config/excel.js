@@ -20,12 +20,14 @@ export const generateExcel = (project, items, employee) => {
         ['NAME','PRICE','QUANTITY','DATE','TOTAL'],
     ]);
     XLSX.utils.sheet_add_aoa(ws, itemList, {origin: -1});
+    XLSX.utils.sheet_add_aoa(ws, [[ 'ITEMS TOTAL' , itemSum ]], {origin: -1});
     XLSX.utils.sheet_add_aoa(ws, [[]], {origin: -1});
     XLSX.utils.sheet_add_aoa(ws, [['EMPLOYEES']], {origin: -1});
     XLSX.utils.sheet_add_aoa(ws, [['NAME', 'START DATE', 'FINISH DATE', 'SALARY', 'WORK DAYS']], {origin: -1});
     XLSX.utils.sheet_add_aoa(ws, employeeList, {origin: -1});
+    XLSX.utils.sheet_add_aoa(ws, [[ 'EMPLOYEES TOTAL' , employeeSum ]], {origin: -1});
     XLSX.utils.sheet_add_aoa(ws, [[]], {origin: -1});
-    XLSX.utils.sheet_add_aoa(ws, [['PROJECT TOTAL',project.price - (itemSum+employeeSum) ]], {origin: -1});
+    XLSX.utils.sheet_add_aoa(ws, [[ 'PROJECT TOTAL' ,project.price - (itemSum+employeeSum) ]], {origin: -1});
     XLSX.utils.sheet_add_aoa(ws, [[]], {origin: -1});
 
     XLSX.utils.book_append_sheet(wb, ws, `Project`, true);
