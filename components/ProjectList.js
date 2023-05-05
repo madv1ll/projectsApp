@@ -31,9 +31,7 @@ const ProjectList = () => {
 
   const renderItem = ({ item }) => {
     return (
-      <View style={styles.projectItemContainer}>
         <ProjectItem project={item} handleDelete={handleDelete} />
-      </View>
     );
   };
 
@@ -53,7 +51,6 @@ const ProjectList = () => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} progressBackgroundColor="#0a3d62" />
         }
-        contentContainerStyle={styles.contentContainer} // Agrega este estilo para ocupar toda la pantalla
       />
     </View>
   );
@@ -69,12 +66,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     alignSelf: 'center',
-  },
-  projectItemContainer: {
-    flex: 1,
-  },
-  contentContainer: {
-    flexGrow: 1, // Ocupa todo el espacio vertical disponible
   },
 });
 

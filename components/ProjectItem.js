@@ -40,9 +40,10 @@ const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
     borderRadius: 8,
     padding: 10,
+    marginBottom: 10,
     elevation: 2,
   },
   textContainer: {

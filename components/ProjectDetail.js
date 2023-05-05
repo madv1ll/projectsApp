@@ -15,64 +15,64 @@ import { Ionicons } from '@expo/vector-icons';
 
 const ProjectDetail = (id) => {
 
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
-    const isFocused = useIsFocused();
+  const isFocused = useIsFocused();
 
-    const [items, setItems] = useState([]);
-    const [project, setProject] = useState([]);
-    const [employee, setEmployee] = useState([]);
-    
-    const loadItems = async (id) =>{
-      try{
-        const data = await getProjectItems(id);
-        setItems(data)
-      }catch(error){
-        console.log(error)
-      }
-    };
-    
-    const loadProject = async (id) => {
-      try {
-        const [data] = await getProject(id);
-        setProject(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    
-    const loadEmployees = async (id) => {
-      try{
-        const data = await getEmployees(id);
-        setEmployee(data);
-      }catch(error){
-        console.log(error)
-      }
-    };
-    const handleDelete = async (itemid) => {
-        await deleteItem(itemid);
-        loadItems(id.id);
-        loadProject(id.id);
-      }
-    const handleEmployeeDelete = async (employeeid) => {
-        await deleteEmployee(employeeid);
-        loadEmployees(id.id);
-    };  
+  const [items, setItems] = useState([]);
+  const [project, setProject] = useState([]);
+  const [employee, setEmployee] = useState([]);
 
-    useEffect(() => {
-        loadItems(id.id);
-        loadProject(id.id);
-        loadEmployees(id.id);
-    }, [isFocused]);
-    
-    const renderItem = ({ item }) => {
-        return <ItemDetail item={ item } handleDelete={handleDelete}/>
-      };
+  const loadItems = async (id) =>{
+    try{
+      const data = await getProjectItems(id);
+      setItems(data)
+    }catch(error){
+      console.log(error)
+    }
+  };
 
-    const renderEmployee = ({ item }) => {
-        return <EmployeeList employee={ item } handleDelete={ handleEmployeeDelete } />
+  const loadProject = async (id) => {
+    try {
+      const [data] = await getProject(id);
+      setProject(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const loadEmployees = async (id) => {
+    try{
+      const data = await getEmployees(id);
+      setEmployee(data);
+    }catch(error){
+      console.log(error)
+    }
+  };
+  const handleDelete = async (itemid) => {
+      await deleteItem(itemid);
+      loadItems(id.id);
+      loadProject(id.id);
+    }
+  const handleEmployeeDelete = async (employeeid) => {
+      await deleteEmployee(employeeid);
+      loadEmployees(id.id);
+  };  
+
+  useEffect(() => {
+      loadItems(id.id);
+      loadProject(id.id);
+      loadEmployees(id.id);
+  }, [isFocused]);
+
+  const renderItem = ({ item }) => {
+      return <ItemDetail item={ item } handleDelete={handleDelete}/>
     };
-    
+
+  const renderEmployee = ({ item }) => {
+      return <EmployeeList employee={ item } handleDelete={ handleEmployeeDelete } />
+  };
+
   return (
     <>
       <View style={styles.pageTitle}>
@@ -114,7 +114,7 @@ const ProjectDetail = (id) => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderEmployee}
         />
-    </ >
+    </>
   )
 };
 const styles = StyleSheet.create({
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    alignSelf: 'center',
   },
   itemTitle: {
     color: '#222f3e',
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     backgroundColor: '#0a3d62',
-    marginRight: 250,
+    marginLeft: 10,
   },
 });
 
